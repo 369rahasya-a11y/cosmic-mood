@@ -72,7 +72,8 @@ for sign, mood in itertools.product(signs, moods):
             insert_url = f"{url}/rest/v1/daily_horoscopes"
             post_res = requests.post(insert_url, json=payload, headers=headers)
             
-            if post_res.status_code in [200, 201]:
+            # Fixed the clipping grammar bug here
+            if post_res.status_code in [200, 201, 204]:
                 print(f"   ✅ Saved successfully: {sign} ({mood})")
                 break
             else:
