@@ -1,4 +1,3 @@
-````python
 import json
 import os
 import time
@@ -162,4 +161,3 @@ Return ONLY valid JSON.
     time.sleep(5)
 
 print("\nALL DONE")
-````
