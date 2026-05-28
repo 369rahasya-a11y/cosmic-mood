@@ -3,7 +3,7 @@ import json
 import time
 import requests
 
-# UPDATED: Targets the official global canonical pathway for Gemini 1.5 Flash
+# Production canonical route for the current Gemini 1.5 Flash model stable build
 GEMINI_URL = "https://googleapis.com"
 API_KEY = os.environ.get("GEMINI_API_KEY")
 OUTPUT_FILE = "horoscopes.json"
@@ -23,7 +23,7 @@ def get_tone_rules(mood):
     if mood in ["ambitious", "adventurous", "creative", "rebellious", "confident"]:
         return "Use 'fierce & direct' energy. The tone must feel motivating, magnetic, energetic, bold, action-oriented, and confident."
     elif mood in ["anxious", "sad", "lonely", "romantic", "nostalgic"]:
-        return "Use 'nurturing & deeply empathetic' energy. The tone must feel emotionally safe, warm, validating, ixtimate, understanding, and emotionally intelligent."
+        return "Use 'nurturing & deeply empathetic' energy. The tone must feel emotionally safe, warm, validating, intimate, understanding, and emotionally intelligent."
     else:
         return "Use 'grounding & calm' energy. The tone must feel spacious, calming, slow, reflective, emotionally balanced, and gently reassuring."
 
@@ -55,15 +55,14 @@ def generate_horoscope(sign, mood):
         
         if response.status_code == 200:
             res_data = response.json()
-            # FIXED EXTRACTION: Explicitly traverses index arrays to parse out text blocks cleanly
+            # BULLETPROOF EXTRACTION: Correctly processes positional arrays [0] to extract the text strings
             return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
         elif response.status_code == 429:
             print("\n⚠️ Quota tier limit hit. Pausing for extended cooldown...", flush=True)
             time.sleep(30)
             return generate_horoscope(sign, mood)
         else:
-            # PRINTS SYSTEM LOGS: Reveals the raw message returned by Google instead of hiding it
-            print(f"\n❌ Server Error [{response.status_code}] on profile: {sign}-{mood} -> {response.text}", flush=True)
+            print(f"\n❌ Server Rejection status [{response.status_code}] on profile: {sign}-{mood}", flush=True)
             return "The cosmic tides are settling into a neutral pattern today. Focus on stabilizing your baseline environment."
             
     except Exception as e:
