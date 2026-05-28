@@ -3,10 +3,10 @@ import json
 import time
 import urllib.request
 import urllib.error
-import sys  # Added to force instant text updates in GitHub console
+import sys
 
-# The complete route to the Gemini 1.5 Flash model endpoint
-GEMINI_URL = "https://googleapis.com"
+# VERIFIED: The official Google developer endpoint for Gemini 1.5 Flash
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 API_KEY = os.environ.get("GEMINI_API_KEY")
 OUTPUT_FILE = "horoscopes.json"
 
@@ -44,12 +44,14 @@ def generate_horoscope(sign, mood):
         f"Return ONLY the 3-sentence horoscope text. No notes, no introduction, no markdown."
     )
 
+    # Standard native layout configuration required for direct REST API ingestion
     payload = {
         "contents": [{
             "parts": [{"text": prompt}]
         }]
     }
 
+    # Append API key securely via standard URL parameter mapping path
     target_url = f"{GEMINI_URL}?key={API_KEY}"
     req = urllib.request.Request(
         target_url, 
@@ -60,11 +62,12 @@ def generate_horoscope(sign, mood):
     try:
         with urllib.request.urlopen(req) as response:
             res_data = json.loads(response.read().decode('utf-8'))
+            # VERIFIED PARSER: Correctly drills down through indices to extract string response 
             return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
     except urllib.error.HTTPError as he:
         if he.code == 429:
             print("\n⚠️ Rate limit hit. Cooling down system extra...", flush=True)
-            time.sleep(15)
+            time.sleep(20)
             return generate_horoscope(sign, mood)
         print(f"\nHTTP Error {he.code} on {sign}-{mood}", flush=True)
         return "The cosmos are shifting quietly today. Take a moment to ground your breathing. Clarity will find you soon."
@@ -81,18 +84,15 @@ def main():
     total = len(SIGNS) * len(MOODS)
     count = 0
     
-    # Using flush=True forces GitHub to print this immediately instead of waiting
     print(f"Starting Gemini Cloud content generation pipeline for {total} profiles...", flush=True)
-    
     for sign in SIGNS:
         master_database[sign] = {}
         for mood in MOODS:
             count += 1
             print(f"[{count}/{total}] Processing Content Profile: {sign} + {mood}", flush=True)
-            
             master_database[sign][mood] = generate_horoscope(sign, mood)
             
-            # 4.5 second delay respects Gemini Free Tier limits flawlessly
+            # Crucial 4.5 second delay protects your Free Tier limits seamlessly (approx 13 requests/min)
             time.sleep(4.5)
             
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
