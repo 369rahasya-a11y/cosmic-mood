@@ -1,59 +1,83 @@
-Generate emotionally intelligent daily horoscope content for ALL zodiac signs and ALL moods for today.
+Generate emotionally intelligent daily horoscope content that feels deeply personal, psychologically accurate, emotionally specific, and socially shareable.
+
+The writing should feel like:
+
+* an emotionally aware late-night thought
+* subtle inner dialogue
+* a close friend noticing what someone refuses to say out loud
+* emotionally observant modern writing
+* introspective but believable
+
+The content should create reactions like:
+
+* “this is weirdly accurate”
+* “I needed to hear this”
+* “this sounds exactly like me”
+* “why does this feel personal?”
 
 ━━━━━━━━━━━━━━━━━━
-ZODIAC SIGNS
+CORE WRITING STYLE
 ━━━━━━━━━━━━━━━━━━
 
-Aries
-Taurus
-Gemini
-Cancer
-Leo
-Virgo
-Libra
-Scorpio
-Sagittarius
-Capricorn
-Aquarius
-Pisces
+The writing must:
+
+* feel emotionally human
+* sound modern and conversational
+* feel intimate without sounding dramatic
+* contain emotional realism
+* feel screenshot-worthy
+* feel emotionally addictive to read daily
+
+Avoid:
+
+* generic spirituality
+* robotic positivity
+* motivational speech
+* cheesy manifestation language
+* fake inspirational quotes
+* excessive optimism
+* repetitive emotional patterns
+* overly poetic writing
+* dramatic prophecy language
 
 ━━━━━━━━━━━━━━━━━━
-MOODS
+EMOTIONAL REALISM
 ━━━━━━━━━━━━━━━━━━
 
-Ambitious
-Adventurous
-Creative
-Rebellious
-Confident
-Anxious
-Sad
-Lonely
-Romantic
-Nostalgic
-Exhausted
-Lazy
-Peaceful
-Daydreamy
-Irritated
+Describe emotions through:
 
-━━━━━━━━━━━━━━━━━━
-TASK
-━━━━━━━━━━━━━━━━━━
+* internal dialogue
+* emotional contradictions
+* subtle social tension
+* avoidance patterns
+* relationship ambiguity
+* overthinking loops
+* emotional exhaustion
+* unspoken desires
+* modern emotional behavior
+* quiet realizations
+* emotional self-protection
 
-Generate one unique daily horoscope for every possible combination of:
+The horoscope should often feel like:
 
-* zodiac sign
-* mood
+* recognizing something the reader hasn’t fully admitted yet
+* naming a feeling indirectly
+* exposing emotional tension softly
+* describing emotionally recognizable behavior
 
-Total required outputs:
-12 signs × 15 moods = 180 horoscopes
+Good examples of emotional realism:
+
+* “You keep pretending the situation doesn’t affect you because reacting would make it feel too real.”
+* “Part of you wants reassurance while another part refuses to ask for it.”
+* “You’re getting tired of carrying conversations that barely meet you halfway.”
+* “Some distance has started feeling more peaceful than certain connections.”
+* “Your mind keeps replaying moments that probably didn’t deserve this much emotional energy.”
 
 ━━━━━━━━━━━━━━━━━━
 TONE SYSTEM
 ━━━━━━━━━━━━━━━━━━
 
-If Mood is:
+If the mood is:
 
 * Ambitious
 * Adventurous
@@ -61,10 +85,25 @@ If Mood is:
 * Rebellious
 * Confident
 
-Use “Fierce & Direct” energy.
-The tone should feel motivating, magnetic, energetic, bold, action-oriented, and confident.
+Use:
 
-If Mood is:
+* bold emotional energy
+* sharp observations
+* magnetic confidence
+* emotionally charged momentum
+* decisive language
+* motivating but emotionally intelligent tone
+
+Sentence pacing can be:
+
+* cleaner
+* faster
+* more direct
+* emotionally energized
+
+━━━━━━━━━━━━━━━━━━
+
+If the mood is:
 
 * Anxious
 * Sad
@@ -72,10 +111,25 @@ If Mood is:
 * Romantic
 * Nostalgic
 
-Use “Nurturing & Deeply Empathetic” energy.
-The tone should feel emotionally safe, warm, validating, intimate, understanding, and emotionally intelligent.
+Use:
 
-If Mood is:
+* emotional warmth
+* emotional safety
+* vulnerability
+* softness
+* intimacy
+* emotionally validating observations
+
+Sentence pacing can be:
+
+* softer
+* reflective
+* emotionally spacious
+* quieter and deeper
+
+━━━━━━━━━━━━━━━━━━
+
+If the mood is:
 
 * Exhausted
 * Lazy
@@ -83,83 +137,147 @@ If Mood is:
 * Daydreamy
 * Irritated
 
-Use “Grounding & Calm” energy.
-The tone should feel spacious, calming, slow, reflective, emotionally balanced, and gently reassuring.
+Use:
+
+* grounded calmness
+* mental spaciousness
+* reflective clarity
+* emotionally balanced tone
+* subtle reassurance
+* slower emotional pacing
+
+Sentence pacing can be:
+
+* relaxed
+* spacious
+* emotionally steady
+* less emotionally intense
 
 ━━━━━━━━━━━━━━━━━━
-STRICT WRITING RULES
+IMPORTANT WRITING RULES
 ━━━━━━━━━━━━━━━━━━
 
-1. NEVER directly mention the mood word itself.
+1. NEVER directly mention the mood word.
 
 Bad:
+“You feel anxious today.”
 
-* “You are anxious today.”
-* “Your loneliness is strong.”
-
-Instead:
-
-* indirectly mirror emotional atmosphere, thoughts, emotional tension, desires, or energy.
-
-2. Every horoscope MUST contain EXACTLY:
-
-* Sentence 1 → emotional/cosmic atmosphere
-* Sentence 2 → practical advice or mental shift
-* Sentence 3 → emotional realization, perspective shift, or prediction
-
-3. Every horoscope must be:
-
-* between 50 and 70 words
-* emotionally specific
-* modern sounding
-* conversational
-* slightly mystical but believable
-* non-repetitive
-
-4. Avoid:
-
-* generic spirituality
-* repetitive phrases
-* overly poetic language
-* dramatic prophecy language
-* zodiac stereotypes
-* mentioning planets excessively
-
-5. Every horoscope should feel:
-
-* screenshot-worthy
-* emotionally personal
-* highly relatable
-* socially shareable
+Good:
+“Your mind keeps revisiting conversations that probably don’t need another replay.”
 
 ━━━━━━━━━━━━━━━━━━
-OUTPUT FORMAT
-━━━━━━━━━━━━━━━━━━
 
-Return ONLY valid JSON.
+2. Every horoscope must contain EXACTLY 3 sentences.
 
-Structure:
+Sentence 1:
+An emotionally recognizable observation, internal atmosphere, or emotional tension.
 
-{
-"date": "YYYY-MM-DD",
-"horoscopes": [
-{
-"sign": "Aries",
-"mood": "Ambitious",
-"content": "horoscope text here"
-}
-]
-}
+Sentence 2:
+A grounded realization, emotional insight, perspective shift, or subtle advice.
+
+Sentence 3:
+An emotional resolution, realization, prediction, comforting truth, or lingering thought.
 
 ━━━━━━━━━━━━━━━━━━
-CRITICAL REQUIREMENTS
+
+3. Every horoscope must feel emotionally specific.
+
+Avoid vague writing like:
+
+* “things will improve”
+* “good energy surrounds you”
+* “trust the universe”
+
+Instead describe:
+
+* recognizable human behavior
+* emotional contradictions
+* relationship dynamics
+* thought patterns
+* emotional tension
+* social fatigue
+* longing
+* avoidance
+* emotional self-awareness
+
 ━━━━━━━━━━━━━━━━━━
 
-* Generate ALL 180 horoscope combinations.
-* Every horoscope MUST be unique.
-* No duplicate phrasing.
-* No markdown.
-* No explanations.
-* No commentary.
-* Output ONLY valid JSON.
+4. Emotional contradiction is powerful.
+
+Examples:
+
+* wanting closeness while avoiding vulnerability
+* craving peace while creating emotional noise internally
+* missing someone while knowing distance is healthier
+* wanting honesty while fearing what honesty reveals
+
+━━━━━━━━━━━━━━━━━━
+
+5. Vary sentence rhythm naturally.
+
+Some entries can:
+
+* feel blunt
+* feel soft
+* feel emotionally sharp
+* feel reflective
+* feel unresolved
+* feel comforting
+* feel quietly intense
+
+Avoid repetitive cadence.
+
+━━━━━━━━━━━━━━━━━━
+
+6. Avoid overusing these words:
+
+* universe
+* destiny
+* manifestation
+* healing
+* alignment
+* journey
+* transformation
+* energy
+* vibration
+* soulmate
+
+━━━━━━━━━━━━━━━━━━
+
+7. Subtle emotional truth is more powerful than dramatic intensity.
+
+━━━━━━━━━━━━━━━━━━
+
+8. Every horoscope should contain at least one emotionally recognizable or quote-worthy line that feels socially shareable.
+
+━━━━━━━━━━━━━━━━━━
+
+9. Do not sound like:
+
+* a therapist
+* a life coach
+* a mystical guru
+* a motivational speaker
+* a generic astrology generator
+
+━━━━━━━━━━━━━━━━━━
+
+10. The emotional goal is:
+    emotionally intelligent introspection disguised as astrology.
+
+━━━━━━━━━━━━━━━━━━
+OUTPUT RULES
+━━━━━━━━━━━━━━━━━━
+
+* Between 50 and 70 words
+* Exactly 3 sentences
+* Unique phrasing every time
+* Emotionally rich
+* Conversational
+* Modern
+* Human sounding
+* Slightly mystical but believable
+* No markdown
+* No explanations
+
 Return ONLY valid JSON.
