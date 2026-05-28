@@ -3,8 +3,8 @@ import time
 import itertools
 import requests
 
-# Raw environment variables
-url = os.environ["SUPABASE_URL"]
+# Detached environment variable configuration
+url = os.environ["DIRECT_SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
 gemini_key = os.environ["GEMINI_API_KEY"]
 
