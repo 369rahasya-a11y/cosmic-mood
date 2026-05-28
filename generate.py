@@ -3,7 +3,7 @@ import json
 import time
 import requests
 
-# Production stable REST endpoint path for Gemini 1.5 Flash
+# Official Google developer endpoint pathway
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 API_KEY = os.environ.get("GEMINI_API_KEY")
 OUTPUT_FILE = "horoscopes.json"
@@ -55,23 +55,23 @@ def generate_horoscope(sign, mood):
         
         if response.status_code == 200:
             res_data = response.json()
-            # FIXED EXTRACTION PATH: Added the missing 0th item array references
+            # BULLETPROOF EXTRACTION: Correctly references positional arrays to isolate string text
             return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
         elif response.status_code == 429:
-            print("\n⚠️ Rate limit hit. Cooling down system extra...", flush=True)
-            time.sleep(25)
+            print("\n⚠️ Quota tier limit hit. Pausing for extended cooldown...", flush=True)
+            time.sleep(30)
             return generate_horoscope(sign, mood)
         else:
-            print(f"\n❌ Server Error {response.status_code} on {sign}-{mood}", flush=True)
-            return "The cosmos are shifting quietly today. Take a moment to ground your breathing. Clarity will find you soon."
+            print(f"\n❌ Network Endpoint Rejection [{response.status_code}] on profile: {sign}-{mood}", flush=True)
+            return "The cosmic tides are settling into a neutral pattern today. Focus on stabilizing your baseline environment. True direction will declare itself shortly."
             
     except Exception as e:
-        print(f"\nError executing {sign}-{mood}: {e}", flush=True)
-        return "The cosmos are shifting quietly today. Take a moment to ground your breathing. Clarity will find you soon."
+        print(f"\nError processing array mapping path on {sign}-{mood}: {e}", flush=True)
+        return "The cosmic tides are settling into a neutral pattern today. Focus on stabilizing your baseline environment. True direction will declare itself shortly."
 
 def main():
     if not API_KEY:
-        print("❌ CRITICAL ERROR: GEMINI_API_KEY environment variable is missing!", flush=True)
+        print("❌ CRITICAL SETUP ERROR: GEMINI_API_KEY environment variable is entirely missing from repository secrets!", flush=True)
         return
 
     master_database = {}
@@ -83,15 +83,15 @@ def main():
         master_database[sign] = {}
         for mood in MOODS:
             count += 1
-            print(f"[{count}/{total}] Processing Content Profile: {sign} + {mood}", flush=True)
+            print(f"[{count}/{total}] Syncing Content Profile: {sign} + {mood}", flush=True)
             master_database[sign][mood] = generate_horoscope(sign, mood)
             
-            # 4.5 second spacing window keeps free processing quotas safe
-            time.sleep(4.5)
+            # Safe 5-second interval respects free tier request thresholds smoothly
+            time.sleep(5.0)
             
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(master_database, f, indent=4, ensure_ascii=False)
-    print("✨ Content system sync operation successfully completed!", flush=True)
+    print("✨ Rahasya automated content system sync operation successfully completed!", flush=True)
 
 if __name__ == "__main__":
     main()
