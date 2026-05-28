@@ -1,7 +1,7 @@
 import os
 import time
 import itertools
-import google.genai
+import google.generativeai as genai
 from supabase import create_client, Client
 
 # Initialize database clients using standard cloud environments
