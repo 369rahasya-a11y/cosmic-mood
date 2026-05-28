@@ -45,7 +45,7 @@ for sign, mood in itertools.product(signs, moods):
     
     try:
         response = ai_client.models.generate_content(
-            model='gemini-1.5-flash',
+            model='gemini-2.5-flash',
             contents=prompt,
         )
         text = response.text.strip()
