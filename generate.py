@@ -181,12 +181,14 @@ RULES:
 
             print("Uploading...")
 
-            supabase.table("horoscopes").upsert({
+            supabase.table("horoscopes").upsert(
+            {
                 "horoscope_date": parsed["date"],
                 "sign": parsed["sign"],
                 "mood": parsed["mood"],
                 "content": parsed["content"]
-            }).execute()
+            }
+            ).execute()
 
             print("SUCCESS")
 
