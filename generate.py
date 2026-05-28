@@ -1,4 +1,3 @@
-```python
 import os
 import time
 
@@ -84,4 +83,3 @@ for sign in SIGNS:
     time.sleep(2)
 
 print("\nSUPABASE TEST COMPLETE")
-```
