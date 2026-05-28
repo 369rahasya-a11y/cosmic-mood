@@ -1,6 +1,8 @@
+````python
 import json
 import os
 import time
+from datetime import datetime
 
 from groq import Groq
 from supabase import create_client
@@ -12,6 +14,19 @@ from supabase import create_client
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+# =========================
+# VALIDATION
+# =========================
+
+if not GROQ_API_KEY:
+    raise Exception("GROQ_API_KEY missing")
+
+if not SUPABASE_URL:
+    raise Exception("SUPABASE_URL missing")
+
+if not SUPABASE_KEY:
+    raise Exception("SUPABASE_SERVICE_ROLE_KEY missing")
 
 # =========================
 # CLIENTS
@@ -29,7 +44,7 @@ supabase = create_client(
 print("CONNECTED")
 
 # =========================
-# SIGNS
+# DATA
 # =========================
 
 SIGNS = [
@@ -47,12 +62,32 @@ SIGNS = [
     "Pisces"
 ]
 
+MOODS = [
+    "Ambitious",
+    "Adventurous",
+    "Creative",
+    "Rebellious",
+    "Confident",
+    "Anxious",
+    "Sad",
+    "Lonely",
+    "Romantic",
+    "Nostalgic",
+    "Exhausted",
+    "Lazy",
+    "Peaceful",
+    "Daydreamy",
+    "Irritated"
+]
+
 # =========================
-# LOAD PROMPT
+# LOAD MASTER PROMPT
 # =========================
 
 with open("prompt.txt", "r", encoding="utf-8") as f:
     MASTER_PROMPT = f.read()
+
+today = datetime.utcnow().date().isoformat()
 
 # =========================
 # GENERATE
@@ -60,98 +95,108 @@ with open("prompt.txt", "r", encoding="utf-8") as f:
 
 for sign in SIGNS:
 
-    print(f"\n========== {sign} ==========\n")
+    for mood in MOODS:
 
-    prompt = f"""
+        print(f"\n========== {sign} → {mood} ==========\n")
+
+        prompt = f"""
 {MASTER_PROMPT}
 
 IMPORTANT:
-Generate horoscopes ONLY for:
+
+Generate ONLY ONE horoscope.
+
+Zodiac Sign:
 {sign}
 
-Generate all 15 moods.
+Mood:
+{mood}
 
-Return ONLY valid JSON.
+Return ONLY ONE valid JSON object.
 
-Do not add explanations.
-Do not add markdown.
-Do not wrap JSON in triple backticks.
+STRICT FORMAT:
+
+{{
+  "date": "{today}",
+  "sign": "{sign}",
+  "mood": "{mood}",
+  "content": "horoscope text here"
+}}
+
+RULES:
+- Output ONLY JSON
+- Do NOT add explanations
+- Do NOT add markdown
+- Do NOT wrap JSON in triple backticks
+- Do NOT generate multiple JSON objects
+- Do NOT generate arrays
+- Do NOT generate labels
+- The response must start with {{
+- The response must end with }}
 """
 
-    try:
+        try:
 
-        print("Generating...")
+            print("Generating...")
 
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            temperature=0.9,
-            max_tokens=2500
-        )
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                temperature=0.9,
+                max_tokens=400
+            )
 
-        text = completion.choices[0].message.content
+            text = completion.choices[0].message.content.strip()
 
-        print("\nRAW RESPONSE:\n")
-        print(text)
+            print("\nRAW RESPONSE:\n")
+            print(text)
 
-        # =========================
-        # CLEAN RESPONSE
-        # =========================
+            # =========================
+            # CLEAN RESPONSE
+            # =========================
 
-        if text.startswith("```json"):
             text = text.replace("```json", "")
-
-        if text.startswith("```"):
             text = text.replace("```", "")
+            text = text.strip()
 
-        text = text.strip()
+            # FIND JSON START
+            json_start = text.find("{")
 
-        # FIND JSON START
-        json_start = text.find("{")
+            # FIND JSON END
+            json_end = text.rfind("}")
 
-        if json_start != -1:
-            text = text[json_start:]
+            if json_start != -1 and json_end != -1:
+                text = text[json_start:json_end + 1]
 
-        # FIND JSON END
-        json_end = text.rfind("}")
+            print("\nCLEANED JSON:\n")
+            print(text)
 
-        if json_end != -1:
-            text = text[:json_end + 1]
+            print("Parsing JSON...")
 
-        print("\nCLEANED JSON:\n")
-        print(text)
+            parsed = json.loads(text)
 
-        print("Parsing JSON...")
-
-        parsed = json.loads(text)
-
-        print("Uploading...")
-
-        count = 0
-
-        for item in parsed["horoscopes"]:
+            print("Uploading...")
 
             supabase.table("horoscopes").upsert({
                 "horoscope_date": parsed["date"],
-                "sign": item["sign"],
-                "mood": item["mood"],
-                "content": item["content"]
+                "sign": parsed["sign"],
+                "mood": parsed["mood"],
+                "content": parsed["content"]
             }).execute()
 
-            count += 1
+            print("SUCCESS")
 
-        print(f"SUCCESS: Uploaded {count}")
+        except Exception as e:
 
-    except Exception as e:
+            print("FAILED:")
+            print(str(e))
 
-        print("FAILED:")
-        print(str(e))
+        time.sleep(2)
 
-    time.sleep(3)
-
-print("\nALL DONE")
+print("\nALL 180 HOROSCOPES GENERATED")
+````
