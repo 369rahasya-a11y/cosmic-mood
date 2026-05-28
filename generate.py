@@ -1,15 +1,17 @@
 import os
 import time
 import itertools
-from google import genai
+import google.generativeai as genai
 from supabase import create_client, Client
 
-# Clean client initialisation using environment variables 
+# Initialize database clients using standard cloud environments
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
-
 supabase: Client = create_client(url, key)
-ai_client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+
+# Configure the legacy-stable Google library interface
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]
 moods = ["Ambitious", "Adventurous", "Creative", "Rebellious", "Confident", "Anxious", "Sad", "Lonely", "Romantic", "Nostalgic", "Exhausted", "Lazy", "Peaceful", "Daydreamy", "Irritated"]
@@ -43,16 +45,13 @@ for sign, mood in itertools.product(signs, moods):
     5. Introduce absolute variety. Avoid using common astrological clichés like "The stars align," "Cosmic shift," or repeating sentence structures from yesterday. Make every generation unique.
     """
     
-    # Retry mechanism loop (will try up to 3 times if Google rate limits us)
+    # Auto-Retry Logic to bypass Google rate walls flawlessly
     for attempt in range(3):
         try:
-            response = ai_client.models.generate_content(
-                model='gemini-2.5-flash',
-                contents=prompt,
-            )
+            response = model.generate_content(prompt)
             text = response.text.strip()
             
-            # Insert cleanly to Supabase
+            # Save smoothly to Supabase
             supabase.table("daily_horoscopes").insert({
                 "zodiac_sign": sign,
                 "mood": mood,
@@ -60,17 +59,17 @@ for sign, mood in itertools.product(signs, moods):
             }).execute()
             
             print(f"✅ Saved successfully: {sign} ({mood})")
-            break # Success! Break out of the retry loop
+            break
             
         except Exception as e:
             if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                print(f"⚠️ Google rate limit hit. Cool down cooling active. Retrying attempt {attempt + 1} in 35 seconds...")
-                time.sleep(35) # Wait out Google's penalty window
+                print(f"⚠️ Rate limit hit. Cooling down. Retrying attempt {attempt + 1} in 35 seconds...")
+                time.sleep(35)
             else:
                 print(f"❌ Error generating for {sign}-{mood}: {e}")
                 break
     
-    # Standard steady pace pause between items
+    # 13-second rate buffer to sit inside Google's standard free tier metrics
     time.sleep(13)
 
 print("All 180 horoscopes successfully synced to the cloud database!")
