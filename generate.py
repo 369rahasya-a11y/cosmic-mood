@@ -3,8 +3,9 @@ import json
 import time
 import urllib.request
 import urllib.error
+import sys  # Added to force instant text updates in GitHub console
 
-# FIXED: Replaced the generic URL with the true Gemini 1.5 Flash endpoint path
+# The complete route to the Gemini 1.5 Flash model endpoint
 GEMINI_URL = "https://googleapis.com"
 API_KEY = os.environ.get("GEMINI_API_KEY")
 OUTPUT_FILE = "horoscopes.json"
@@ -43,14 +44,12 @@ def generate_horoscope(sign, mood):
         f"Return ONLY the 3-sentence horoscope text. No notes, no introduction, no markdown."
     )
 
-    # Perfect REST structure payload required by Google
     payload = {
         "contents": [{
             "parts": [{"text": prompt}]
         }]
     }
 
-    # Pass the API Key smoothly in the URL parameter path
     target_url = f"{GEMINI_URL}?key={API_KEY}"
     req = urllib.request.Request(
         target_url, 
@@ -61,34 +60,36 @@ def generate_horoscope(sign, mood):
     try:
         with urllib.request.urlopen(req) as response:
             res_data = json.loads(response.read().decode('utf-8'))
-            # Keeping your excellent dictionary indexing fix intact
             return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
     except urllib.error.HTTPError as he:
         if he.code == 429:
-            print("⚠️ Rate limit hit. Cooling down system extra...")
+            print("\n⚠️ Rate limit hit. Cooling down system extra...", flush=True)
             time.sleep(15)
             return generate_horoscope(sign, mood)
-        print(f"HTTP Error {he.code} on {sign}-{mood}")
+        print(f"\nHTTP Error {he.code} on {sign}-{mood}", flush=True)
         return "The cosmos are shifting quietly today. Take a moment to ground your breathing. Clarity will find you soon."
     except Exception as e:
-        print(f"Error executing {sign}-{mood}: {e}")
+        print(f"\nError executing {sign}-{mood}: {e}", flush=True)
         return "The cosmos are shifting quietly today. Take a moment to ground your breathing. Clarity will find you soon."
 
 def main():
     if not API_KEY:
-        print("❌ CRITICAL ERROR: GEMINI_API_KEY environment variable is missing!")
+        print("❌ CRITICAL ERROR: GEMINI_API_KEY environment variable is missing!", flush=True)
         return
 
     master_database = {}
     total = len(SIGNS) * len(MOODS)
     count = 0
     
-    print(f"Starting Gemini Cloud content generation pipeline for {total} profiles...")
+    # Using flush=True forces GitHub to print this immediately instead of waiting
+    print(f"Starting Gemini Cloud content generation pipeline for {total} profiles...", flush=True)
+    
     for sign in SIGNS:
         master_database[sign] = {}
         for mood in MOODS:
             count += 1
-            print(f"[{count}/{total}] Processing Content Profile: {sign} + {mood}")
+            print(f"[{count}/{total}] Processing Content Profile: {sign} + {mood}", flush=True)
+            
             master_database[sign][mood] = generate_horoscope(sign, mood)
             
             # 4.5 second delay respects Gemini Free Tier limits flawlessly
@@ -96,7 +97,7 @@ def main():
             
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(master_database, f, indent=4, ensure_ascii=False)
-    print("✨ Content system sync operation successfully completed!")
+    print("✨ Content system sync operation successfully completed!", flush=True)
 
 if __name__ == "__main__":
     main()
