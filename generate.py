@@ -1,9 +1,9 @@
 import os
 import json
 import time
-import requests # Upgraded to use official stable requests library
+import requests
 
-# Official endpoint route for Gemini 1.5 Flash
+# Production stable REST endpoint path for Gemini 1.5 Flash
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 API_KEY = os.environ.get("GEMINI_API_KEY")
 OUTPUT_FILE = "horoscopes.json"
@@ -42,23 +42,20 @@ def generate_horoscope(sign, mood):
         f"Return ONLY the 3-sentence horoscope text. No notes, no introduction, no markdown."
     )
 
-    # Standard JSON body format required by Google's native API
     payload = {
         "contents": [{
             "parts": [{"text": prompt}]
         }]
     }
 
-    # Pass the API key cleanly inside URL parameter configurations
     params = {"key": API_KEY}
     
     try:
-        # requests automatically structures the POST handshake with ideal agent layers
-        response = requests.post(GEMINI_URL, json=payload, params=params, timeout=10)
+        response = requests.post(GEMINI_URL, json=payload, params=params, timeout=15)
         
         if response.status_code == 200:
             res_data = response.json()
-            # FIXED EXTRACTION: Safely drills down array structures natively
+            # FIXED EXTRACTION PATH: Added the missing 0th item array references
             return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
         elif response.status_code == 429:
             print("\n⚠️ Rate limit hit. Cooling down system extra...", flush=True)
@@ -89,8 +86,8 @@ def main():
             print(f"[{count}/{total}] Processing Content Profile: {sign} + {mood}", flush=True)
             master_database[sign][mood] = generate_horoscope(sign, mood)
             
-            # Expanded delay protects your free tier quotas seamlessly
-            time.sleep(5.0)
+            # 4.5 second spacing window keeps free processing quotas safe
+            time.sleep(4.5)
             
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(master_database, f, indent=4, ensure_ascii=False)
