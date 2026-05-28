@@ -1,10 +1,13 @@
-     name: Cosmic Mood Engine
+name: Cosmic Mood Engine
 
 on:
   schedule:
+    # Automatically triggers every single day at 00:00 UTC (5:30 AM IST)
     - cron: '0 0 * * *'
+  # Allows you to click the manual "Run workflow" button inside GitHub anytime
   workflow_dispatch:
 
+# Gives the GitHub automation runner security clearance to save files back to your repository
 permissions:
   contents: write
 
@@ -35,4 +38,3 @@ jobs:
           git add horoscopes.json
           git commit -m "Automated Content Update: New daily horoscopes sync completed" || echo "No data changes detected today."
           git push
-
