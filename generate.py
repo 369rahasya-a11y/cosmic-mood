@@ -1,43 +1,53 @@
 import json
 import os
-from datetime import datetime
+import requests
 
-import google.generativeai as genai
 from supabase import create_client
 
-# ENV VARIABLES
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-
-# CONFIGURE GEMINI
-genai.configure(api_key=GEMINI_API_KEY)
-
-model = genai.GenerativeModel("gemini-2.0-flash")
 
 # LOAD PROMPT
 with open("prompt.txt", "r", encoding="utf-8") as f:
     prompt = f.read()
 
-# GENERATE CONTENT
-response = model.generate_content(prompt)
+# OPENROUTER REQUEST
+response = requests.post(
+    "https://openrouter.ai/api/v1/chat/completions",
+    headers={
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
+    },
+    json={
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "messages": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    }
+)
 
-text = response.text.strip()
+result = response.json()
+
+text = result["choices"][0]["message"]["content"]
 
 # CLEAN JSON
 if text.startswith("```json"):
     text = text.replace("```json", "").replace("```", "")
 
-# PARSE JSON
 parsed = json.loads(text)
 
-# CONNECT SUPABASE
+# SUPABASE
 supabase = create_client(
     SUPABASE_URL,
     SUPABASE_KEY
 )
 
-# INSERT INTO DATABASE
+# INSERT
 for item in parsed["horoscopes"]:
     supabase.table("horoscopes").upsert({
         "horoscope_date": parsed["date"],
@@ -46,4 +56,4 @@ for item in parsed["horoscopes"]:
         "content": item["content"]
     }).execute()
 
-print("All horoscopes uploaded successfully.")
+print("Uploaded successfully")
