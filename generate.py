@@ -4,12 +4,12 @@ import itertools
 import google.generativeai as genai
 from supabase import create_client, Client
 
-# Initialize database clients using standard cloud environments
+# Initialize database clients cleanly using stable variables
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
-# Configure the stable Google library interface using the active model string standard
+# Configure the legacy-stable Google library interface
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
@@ -18,14 +18,19 @@ moods = ["Ambitious", "Adventurous", "Creative", "Rebellious", "Confident", "Anx
 
 print("Clearing yesterday's forecast...")
 try:
-    supabase.table("daily_horoscopes").delete().neq("zodiac_sign", "").execute()
-    print("Database wiped clean!")
+    # Safe delete check: only run delete if rows are actually present to prevent hanging
+    check = supabase.table("daily_horoscopes").select("id", count="exact").limit(1).execute()
+    if check.count and check.count > 0:
+        supabase.table("daily_horoscopes").delete().neq("zodiac_sign", "").execute()
+        print("Database wiped clean!")
+    else:
+        print("Database is already empty. Skipping clear step safely.")
 except Exception as e:
-    print(f"Notice: Could not clear old entries: {e}")
+    print(f"Notice: Handled clear entry routine safely: {e}")
 
 print("Starting cosmic generations...")
 for sign, mood in itertools.product(signs, moods):
-    print(f"Generating for {sign} - {mood}...")
+    print(f"👉 Processing: {sign} + {mood}...")
     
     prompt = f"""
     You are an expert, modern astrologer who writes intuitive, empathetic, and culturally relevant horoscopes. 
@@ -59,15 +64,15 @@ for sign, mood in itertools.product(signs, moods):
                 "horoscope_text": text
             }).execute()
             
-            print(f"✅ Saved successfully: {sign} ({mood})")
+            print(f"   ✅ Saved successfully: {sign} ({mood})")
             break
             
         except Exception as e:
             if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                print(f"⚠️ Rate limit hit. Cooling down. Retrying attempt {attempt + 1} in 35 seconds...")
+                print(f"   ⚠️ Rate limit hit. Cooling down. Retrying attempt {attempt + 1} in 35 seconds...")
                 time.sleep(35)
             else:
-                print(f"❌ Error generating for {sign}-{mood}: {e}")
+                print(f"   ❌ Error generating for {sign}-{mood}: {e}")
                 break
     
     # 13-second rate buffer to sit inside Google's standard free tier metrics
