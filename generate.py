@@ -1,4 +1,3 @@
-````python
 import json
 import os
 import requests
@@ -15,54 +14,62 @@ SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 with open("prompt.txt", "r", encoding="utf-8") as f:
     prompt = f.read()
 
-MAX_RETRIES = 5
+MODELS = [
+    "openrouter/free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "deepseek/deepseek-chat-v3-0324:free",
+    "mistralai/mistral-7b-instruct:free",
+]
 
-for attempt in range(MAX_RETRIES):
+result = None
 
-    response = requests.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "model": "meta-llama/llama-3.3-70b-instruct:free",
-            "messages": [
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ]
-        }
-    )
+for model_name in MODELS:
 
-    print("STATUS:", response.status_code)
+    print(f"Trying model: {model_name}")
 
-    result = response.json()
+    try:
 
-    # SUCCESS
-    if "choices" in result:
-        break
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": model_name,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            },
+            timeout=120
+        )
 
-    # RATE LIMIT
-    if response.status_code == 429:
-        retry_time = 30
+        print("STATUS:", response.status_code)
 
-        try:
-            retry_time = result["error"]["metadata"]["retry_after_seconds"]
-        except:
-            pass
+        result = response.json()
 
-        print(f"Rate limited. Waiting {retry_time} seconds...")
+        # SUCCESS
+        if "choices" in result:
+            print(f"Success with {model_name}")
+            break
 
-        time.sleep(retry_time)
+        print("FAILED:")
+        print(result)
+
+    except Exception as e:
+        print("ERROR:")
+        print(e)
 
         continue
 
-    # OTHER ERRORS
-    raise Exception(f"OpenRouter Error: {result}")
+# FINAL CHECK
+if not result or "choices" not in result:
+    raise Exception("All models failed.")
 
-# FINAL TEXT
+# EXTRACT TEXT
 text = result["choices"][0]["message"]["content"]
 
 # CLEAN JSON
@@ -78,7 +85,7 @@ supabase = create_client(
     SUPABASE_KEY
 )
 
-# INSERT DATA
+# INSERT
 for item in parsed["horoscopes"]:
     supabase.table("horoscopes").upsert({
         "horoscope_date": parsed["date"],
@@ -88,4 +95,4 @@ for item in parsed["horoscopes"]:
     }).execute()
 
 print("All horoscopes uploaded successfully.")
-````
+
