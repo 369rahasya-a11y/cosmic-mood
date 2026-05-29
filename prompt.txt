@@ -280,18 +280,19 @@ OUTPUT RULES
 * No markdown
 * No explanations
 
+RULES:
+- Output ONLY JSON
+- Do NOT add explanations
+- Do NOT add markdown
+- Do NOT wrap JSON in triple backticks
+- Generate ALL 15 moods
+- Each mood must appear exactly once
+
 CRITICAL:
-
-Return STRICT VALID JSON.
-
-The response will be parsed using Python json.loads().
-
-If the JSON is invalid, the request fails.
-
-Do not include:
-- comments
-- markdown
-- explanations
-- trailing commas
-- extra text before JSON
-- extra text after JSON
+- Return STRICT VALID JSON
+- Response will be parsed using Python json.loads()
+- Do not include comments
+- Do not include trailing commas
+- Do not include text before JSON
+- Do not include text after JSON
+- Escape quotation marks inside content properly
