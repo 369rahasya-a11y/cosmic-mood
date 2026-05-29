@@ -131,8 +131,8 @@ CRITICAL:
                 completion = client.chat.completions.create(
                     model="llama-3.3-70b-versatile",
                     messages=[{"role": "user", "content": prompt}],
-                    temperature=0.8,
-                    max_tokens=1800
+                    temperature=0.9,
+                    max_tokens=40000
                 )
 
                 break
