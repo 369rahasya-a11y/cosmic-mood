@@ -1,3 +1,4 @@
+````python
 import json
 import os
 import time
@@ -31,9 +32,7 @@ if not SUPABASE_KEY:
 # CLIENTS
 # =========================
 
-client = Groq(
-    api_key=GROQ_API_KEY
-)
+client = Groq(api_key=GROQ_API_KEY)
 
 supabase = create_client(
     SUPABASE_URL,
@@ -88,6 +87,10 @@ with open("prompt.txt", "r", encoding="utf-8") as f:
 
 today = datetime.utcnow().date().isoformat()
 
+failed_signs = []
+successful_signs = []
+total_uploaded = 0
+
 # =========================
 # GENERATE
 # =========================
@@ -131,23 +134,52 @@ RULES:
 - Do NOT wrap JSON in triple backticks
 - Generate ALL 15 moods
 - Each mood must appear exactly once
+
+CRITICAL:
+- Return STRICT VALID JSON
+- Response will be parsed using Python json.loads()
+- Do not include comments
+- Do not include trailing commas
+- Do not include text before JSON
+- Do not include text after JSON
+- Escape quotation marks inside content properly
 """
 
     try:
 
         print("Generating...")
 
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            temperature=0.9,
-            max_tokens=1800
-        )
+        completion = None
+
+        for attempt in range(3):
+
+            try:
+
+                print(f"API Attempt {attempt + 1}")
+
+                completion = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.9,
+                    max_tokens=1800
+                )
+
+                break
+
+            except Exception as e:
+
+                print(f"API FAILED: {str(e)}")
+
+                if attempt == 2:
+                    failed_signs.append(sign)
+                    raise
+
+                time.sleep(5)
 
         text = completion.choices[0].message.content.strip()
 
@@ -167,7 +199,18 @@ RULES:
 
         print("Parsing JSON...")
 
-        parsed = json.loads(text)
+        try:
+
+            parsed = json.loads(text)
+
+        except json.JSONDecodeError as e:
+
+            print(f"INVALID JSON FOR {sign}")
+            print(str(e))
+
+            failed_signs.append(sign)
+
+            continue
 
         print("Uploading...")
 
@@ -187,6 +230,9 @@ RULES:
 
             count += 1
 
+        successful_signs.append(sign)
+        total_uploaded += count
+
         print(f"SUCCESS: Uploaded {count}")
 
     except Exception as e:
@@ -194,12 +240,23 @@ RULES:
         print("FAILED:")
         print(str(e))
 
-    # =========================
-    # RATE LIMIT PROTECTION
-    # =========================
-
     print("Waiting before next sign...\n")
 
     time.sleep(8)
 
-print("\nALL 180 HOROSCOPES GENERATED")
+print("\n========================")
+print("GENERATION COMPLETE")
+print("========================")
+
+print(f"TOTAL UPLOADED: {total_uploaded}")
+print(f"SUCCESSFUL SIGNS: {len(successful_signs)}")
+
+if failed_signs:
+
+    print("\nFAILED SIGNS:")
+    print(failed_signs)
+
+else:
+
+    print("\nALL SIGNS GENERATED SUCCESSFULLY")
+````
