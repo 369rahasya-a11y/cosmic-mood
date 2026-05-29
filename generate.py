@@ -6,17 +6,9 @@ from datetime import datetime
 from groq import Groq
 from supabase import create_client
 
-# =========================
-# ENV VARIABLES
-# =========================
-
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-
-# =========================
-# VALIDATION
-# =========================
 
 if not GROQ_API_KEY:
     raise Exception("GROQ_API_KEY missing")
@@ -27,10 +19,6 @@ if not SUPABASE_URL:
 if not SUPABASE_KEY:
     raise Exception("SUPABASE_SERVICE_ROLE_KEY missing")
 
-# =========================
-# CLIENTS
-# =========================
-
 client = Groq(api_key=GROQ_API_KEY)
 
 supabase = create_client(
@@ -40,41 +28,15 @@ supabase = create_client(
 
 print("CONNECTED")
 
-# =========================
-# DATA
-# =========================
-
 SIGNS = [
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces"
+    "Aries","Taurus","Gemini","Cancer","Leo","Virgo",
+    "Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"
 ]
 
 MOODS = [
-    "Ambitious",
-    "Adventurous",
-    "Creative",
-    "Rebellious",
-    "Confident",
-    "Anxious",
-    "Sad",
-    "Lonely",
-    "Romantic",
-    "Nostalgic",
-    "Exhausted",
-    "Lazy",
-    "Peaceful",
-    "Daydreamy",
-    "Irritated"
+    "Ambitious","Adventurous","Creative","Rebellious","Confident",
+    "Anxious","Sad","Lonely","Romantic","Nostalgic",
+    "Exhausted","Lazy","Peaceful","Daydreamy","Irritated"
 ]
 
 SIGN_TRAITS = {
@@ -92,10 +54,6 @@ SIGN_TRAITS = {
     "Pisces": "imaginative, empathetic, dreamy, emotionally porous"
 }
 
-# =========================
-# LOAD MASTER PROMPT
-# =========================
-
 with open("prompt.txt", "r", encoding="utf-8") as f:
     MASTER_PROMPT = f.read()
 
@@ -105,15 +63,11 @@ failed_signs = []
 successful_signs = []
 total_uploaded = 0
 
-# =========================
-# GENERATE
-# =========================
-
 for sign in SIGNS:
 
-    print(f"\n========== {sign} ==========\n")
+    print(f"\\n========== {sign} ==========\\n")
 
-    moods_text = "\n".join([f"- {m}" for m in MOODS])
+    moods_text = "\\n".join([f"- {m}" for m in MOODS])
 
     prompt = f"""
 {MASTER_PROMPT}
@@ -176,12 +130,7 @@ CRITICAL:
 
                 completion = client.chat.completions.create(
                     model="llama-3.3-70b-versatile",
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ],
+                    messages=[{"role": "user", "content": prompt}],
                     temperature=0.8,
                     max_tokens=1800
                 )
@@ -200,10 +149,6 @@ CRITICAL:
 
         text = completion.choices[0].message.content.strip()
 
-        # =========================
-        # CLEAN RESPONSE
-        # =========================
-
         text = text.replace("```json", "")
         text = text.replace("```", "")
         text = text.strip()
@@ -220,25 +165,18 @@ CRITICAL:
 
             parsed = json.loads(text)
 
-        required_moods = set(MOODS)
-        returned_moods = {item["mood"] for item in parsed["horoscopes"]}
+            required_moods = set(MOODS)
+            returned_moods = {item["mood"] for item in parsed["horoscopes"]}
 
-    if required_moods != returned_moods:
+            if required_moods != returned_moods:
+                print(f"MISSING OR DUPLICATE MOODS FOR {sign}")
+                failed_signs.append(sign)
+                continue
 
-        print(f"MISSING OR DUPLICATE MOODS FOR {sign}")
-
-        failed_signs.append(sign)
-
-        continue
-
-    if len(parsed["horoscopes"]) != 15:
-
-        print(f"INVALID MOOD COUNT FOR {sign}")
-
-        failed_signs.append(sign)
-
-        continue
-
+            if len(parsed["horoscopes"]) != 15:
+                print(f"INVALID MOOD COUNT FOR {sign}")
+                failed_signs.append(sign)
+                continue
 
         except json.JSONDecodeError as e:
 
@@ -246,7 +184,6 @@ CRITICAL:
             print(str(e))
 
             failed_signs.append(sign)
-
             continue
 
         print("Uploading...")
@@ -277,11 +214,10 @@ CRITICAL:
         print("FAILED:")
         print(str(e))
 
-    print("Waiting before next sign...\n")
-
+    print("Waiting before next sign...\\n")
     time.sleep(8)
 
-print("\n========================")
+print("\\n========================")
 print("GENERATION COMPLETE")
 print("========================")
 
@@ -289,10 +225,7 @@ print(f"TOTAL UPLOADED: {total_uploaded}")
 print(f"SUCCESSFUL SIGNS: {len(successful_signs)}")
 
 if failed_signs:
-
-    print("\nFAILED SIGNS:")
+    print("\\nFAILED SIGNS:")
     print(failed_signs)
-
 else:
-
-    print("\nALL SIGNS GENERATED SUCCESSFULLY")
+    print("\\nALL SIGNS GENERATED SUCCESSFULLY")
