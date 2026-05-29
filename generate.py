@@ -77,6 +77,21 @@ MOODS = [
     "Irritated"
 ]
 
+SIGN_TRAITS = {
+    "Aries": "direct, impulsive, action-oriented, competitive",
+    "Taurus": "steady, comfort-seeking, loyal, resistant to change",
+    "Gemini": "curious, mentally restless, adaptable, socially observant",
+    "Cancer": "emotionally intuitive, protective, nostalgic, sensitive",
+    "Leo": "expressive, proud, warm-hearted, attention-aware",
+    "Virgo": "analytical, self-critical, observant, improvement-focused",
+    "Libra": "relationship-oriented, diplomatic, harmony-seeking, indecisive",
+    "Scorpio": "intense, private, emotionally deep, all-or-nothing",
+    "Sagittarius": "freedom-seeking, adventurous, optimistic, blunt",
+    "Capricorn": "disciplined, ambitious, practical, emotionally reserved",
+    "Aquarius": "independent, unconventional, future-focused, detached",
+    "Pisces": "imaginative, empathetic, dreamy, emotionally porous"
+}
+
 # =========================
 # LOAD MASTER PROMPT
 # =========================
@@ -164,7 +179,7 @@ CRITICAL:
                             "content": prompt
                         }
                     ],
-                    temperature=0.9,
+                    temperature=0.8,
                     max_tokens=1800
                 )
 
@@ -201,6 +216,25 @@ CRITICAL:
         try:
 
             parsed = json.loads(text)
+
+            required_moods = set(MOODS)
+returned_moods = {item["mood"] for item in parsed["horoscopes"]}
+
+if required_moods != returned_moods:
+
+    print(f"MISSING OR DUPLICATE MOODS FOR {sign}")
+
+    failed_signs.append(sign)
+
+    continue
+
+if len(parsed["horoscopes"]) != 15:
+
+    print(f"INVALID MOOD COUNT FOR {sign}")
+
+    failed_signs.append(sign)
+
+    continue
 
         except json.JSONDecodeError as e:
 
