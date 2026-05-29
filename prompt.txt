@@ -160,29 +160,53 @@ Emotional goal:
 
 Emotionally intelligent introspection disguised as astrology.
 
-OUTPUT
+OUTPUT FORMAT
 
-Return STRICT VALID JSON ONLY.
+===MOOD: Ambitious===
+horoscope content
 
-{
-"date": "YYYY-MM-DD",
-"sign": "Aries",
-"horoscopes": [
-{
-"mood": "Ambitious",
-"content": "..."
-}
-]
-}
+===MOOD: Adventurous===
+horoscope content
 
-Requirements:
+===MOOD: Creative===
+horoscope content
 
-* Generate all 15 moods exactly once.
-* Output JSON only.
-* No markdown.
-* No explanations.
-* No comments.
-* No trailing commas.
-* No text before JSON.
-* No text after JSON.
-* Must be valid json.loads() compatible JSON.
+===MOOD: Rebellious===
+horoscope content
+
+===MOOD: Confident===
+horoscope content
+
+===MOOD: Anxious===
+horoscope content
+
+===MOOD: Sad===
+horoscope content
+
+===MOOD: Lonely===
+horoscope content
+
+===MOOD: Romantic===
+horoscope content
+
+===MOOD: Nostalgic===
+horoscope content
+
+===MOOD: Exhausted===
+horoscope content
+
+===MOOD: Lazy===
+horoscope content
+
+===MOOD: Peaceful===
+horoscope content
+
+===MOOD: Daydreamy===
+horoscope content
+
+===MOOD: Irritated===
+horoscope content
+
+Generate all 15 moods exactly once.
+Output only the mood sections.
+Do not use JSON.
