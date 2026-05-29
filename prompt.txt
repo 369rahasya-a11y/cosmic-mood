@@ -1,298 +1,188 @@
-Generate emotionally intelligent daily horoscope content that feels deeply personal, psychologically accurate, emotionally specific, and socially shareable.
+Generate emotionally intelligent daily horoscope content that feels personal, psychologically accurate, emotionally specific, and socially shareable.
+
+STYLE
 
 The writing should feel like:
 
-* an emotionally aware late-night thought
+* a late-night realization
 * subtle inner dialogue
-* a close friend noticing what someone refuses to say out loud
 * emotionally observant modern writing
-* introspective but believable
+* a close friend noticing what someone refuses to admit
 
-The content should create reactions like:
+Create reactions such as:
 
-* “this is weirdly accurate”
-* “I needed to hear this”
-* “this sounds exactly like me”
-* “why does this feel personal?”
+* "this is weirdly accurate"
+* "I needed to hear this"
+* "this sounds exactly like me"
 
-━━━━━━━━━━━━━━━━━━
-CORE WRITING STYLE
-━━━━━━━━━━━━━━━━━━
+The writing must be:
 
-The writing must:
-
-* feel emotionally human
-* sound modern and conversational
-* feel intimate without sounding dramatic
-* contain emotional realism
-* feel screenshot-worthy
-* feel emotionally addictive to read daily
+* emotionally human
+* modern and conversational
+* intimate but believable
+* emotionally realistic
+* screenshot-worthy
 
 Avoid:
 
-* generic spirituality
-* robotic positivity
-* motivational speech
-* cheesy manifestation language
-* fake inspirational quotes
+* generic positivity
+* motivational speeches
+* cheesy spirituality
+* fake inspiration
 * excessive optimism
 * repetitive emotional patterns
-* overly poetic writing
 * dramatic prophecy language
 
-━━━━━━━━━━━━━━━━━━
 EMOTIONAL REALISM
-━━━━━━━━━━━━━━━━━━
 
-Describe emotions through:
+Ground every horoscope in recognizable human behavior:
 
 * internal dialogue
 * emotional contradictions
-* subtle social tension
-* avoidance patterns
 * relationship ambiguity
+* avoidance patterns
 * overthinking loops
+* social tension
 * emotional exhaustion
 * unspoken desires
-* modern emotional behavior
+* self-protection
 * quiet realizations
-* emotional self-protection
-
-The horoscope should often feel like:
-
-* recognizing something the reader hasn’t fully admitted yet
-* naming a feeling indirectly
-* exposing emotional tension softly
-* describing emotionally recognizable behavior
-
-Good examples of emotional realism:
-
-* “You keep pretending the situation doesn’t affect you because reacting would make it feel too real.”
-* “Part of you wants reassurance while another part refuses to ask for it.”
-* “You’re getting tired of carrying conversations that barely meet you halfway.”
-* “Some distance has started feeling more peaceful than certain connections.”
-* “Your mind keeps replaying moments that probably didn’t deserve this much emotional energy.”
-
-━━━━━━━━━━━━━━━━━━
-TONE SYSTEM
-━━━━━━━━━━━━━━━━━━
-
-If the mood is:
-
-* Ambitious
-* Adventurous
-* Creative
-* Rebellious
-* Confident
-
-Use:
-
-* bold emotional energy
-* sharp observations
-* magnetic confidence
-* emotionally charged momentum
-* decisive language
-* motivating but emotionally intelligent tone
-
-Sentence pacing can be:
-
-* cleaner
-* faster
-* more direct
-* emotionally energized
-
-━━━━━━━━━━━━━━━━━━
-
-If the mood is:
-
-* Anxious
-* Sad
-* Lonely
-* Romantic
-* Nostalgic
-
-Use:
-
-* emotional warmth
-* emotional safety
-* vulnerability
-* softness
-* intimacy
-* emotionally validating observations
-
-Sentence pacing can be:
-
-* softer
-* reflective
-* emotionally spacious
-* quieter and deeper
-
-━━━━━━━━━━━━━━━━━━
-
-If the mood is:
-
-* Exhausted
-* Lazy
-* Peaceful
-* Daydreamy
-* Irritated
-
-Use:
-
-* grounded calmness
-* mental spaciousness
-* reflective clarity
-* emotionally balanced tone
-* subtle reassurance
-* slower emotional pacing
-
-Sentence pacing can be:
-
-* relaxed
-* spacious
-* emotionally steady
-* less emotionally intense
-
-━━━━━━━━━━━━━━━━━━
-IMPORTANT WRITING RULES
-━━━━━━━━━━━━━━━━━━
-
-1. NEVER directly mention the mood word.
-
-Bad:
-“You feel anxious today.”
-
-Good:
-“Your mind keeps revisiting conversations that probably don’t need another replay.”
-
-━━━━━━━━━━━━━━━━━━
-
-2. Every horoscope must contain EXACTLY 3 sentences.
-
-Sentence 1:
-An emotionally recognizable observation, internal atmosphere, or emotional tension.
-
-Sentence 2:
-A grounded realization, emotional insight, perspective shift, or subtle advice.
-
-Sentence 3:
-An emotional resolution, realization, prediction, comforting truth, or lingering thought.
-
-━━━━━━━━━━━━━━━━━━
-
-3. Every horoscope must feel emotionally specific.
-
-Avoid vague writing like:
-
-* “things will improve”
-* “good energy surrounds you”
-* “trust the universe”
-
-Instead describe:
-
-* recognizable human behavior
-* emotional contradictions
-* relationship dynamics
-* thought patterns
-* emotional tension
-* social fatigue
-* longing
-* avoidance
-* emotional self-awareness
-
-━━━━━━━━━━━━━━━━━━
-
-4. Emotional contradiction is powerful.
 
 Examples:
 
-* wanting closeness while avoiding vulnerability
-* craving peace while creating emotional noise internally
-* missing someone while knowing distance is healthier
-* wanting honesty while fearing what honesty reveals
+* You keep pretending it doesn't affect you because reacting would make it feel too real.
+* Part of you wants reassurance while another part refuses to ask for it.
+* Some distance has started feeling more peaceful than certain connections.
+* You're tired of carrying conversations that barely meet you halfway.
 
-━━━━━━━━━━━━━━━━━━
+MOOD SYSTEM
 
-5. Vary sentence rhythm naturally.
+Ambitious, Adventurous, Creative, Rebellious, Confident:
 
-Some entries can:
+* bold
+* decisive
+* emotionally sharp
+* energetic
 
-* feel blunt
-* feel soft
-* feel emotionally sharp
-* feel reflective
-* feel unresolved
-* feel comforting
-* feel quietly intense
+Anxious, Sad, Lonely, Romantic, Nostalgic:
 
-Avoid repetitive cadence.
+* warm
+* vulnerable
+* intimate
+* reflective
 
-━━━━━━━━━━━━━━━━━━
+Exhausted, Lazy, Peaceful, Daydreamy, Irritated:
 
-6. Avoid overusing these words:
+* grounded
+* calm
+* spacious
+* emotionally balanced
 
-* universe
-* destiny
-* manifestation
-* healing
-* alignment
-* journey
-* transformation
-* energy
-* vibration
-* soulmate
+UNIQUENESS RULE
 
-━━━━━━━━━━━━━━━━━━
+Each horoscope must contain at least one:
 
-7. Subtle emotional truth is more powerful than dramatic intensity.
+* specific behavior
+* specific social interaction
+* specific thought pattern
+* specific emotional contradiction
+* specific moment of self-awareness
 
-━━━━━━━━━━━━━━━━━━
+Avoid writing that could apply equally to everyone.
 
-8. Every horoscope should contain at least one emotionally recognizable or quote-worthy line that feels socially shareable.
+SCREENSHOT TEST
 
-━━━━━━━━━━━━━━━━━━
+At least one sentence should feel worth saving, sharing, or rereading later.
 
-9. Do not sound like:
+The line should feel emotionally recognizable rather than inspirational.
+
+DIVERSITY RULE
+
+Across the 15 moods:
+
+* vary sentence openings
+* vary emotional themes
+* vary relationship dynamics
+* vary internal conflicts
+* vary emotional scenarios
+
+Do not reuse the same emotional situation repeatedly.
+
+RULES
+
+* Never directly mention the mood.
+* Exactly 6 sentences.
+* Between 150 and 170 words.
+* Include at least one emotionally recognizable or shareable line.
+* Use emotionally specific behavior instead of vague statements.
+* Make each sign and mood feel distinct.
+* Use unique phrasing every time.
+
+Prefer:
+
+* You keep checking a conversation that already ended.
+* You're waiting for reassurance from someone who doesn't know you're looking for it.
+* Part of you wants to reply immediately while another part wants to disappear for a day.
+
+Avoid:
+
+* Things are changing.
+* I sense emotional growth.
+* New opportunities are coming.
+
+REPETITION PREVENTION
+
+Avoid repeatedly starting with:
+
+* You're feeling
+* Your mind is
+* You keep
+* Part of you
+* The truth is
+* Remember that
+
+Vary openings using:
+
+* observations
+* scenes
+* conversations
+* emotional habits
+* quiet realizations
+
+Do not sound like:
 
 * a therapist
 * a life coach
-* a mystical guru
-* a motivational speaker
-* a generic astrology generator
+* a guru
+* a generic horoscope generator
 
-━━━━━━━━━━━━━━━━━━
+Emotional goal:
 
-10. The emotional goal is:
-    emotionally intelligent introspection disguised as astrology.
+Emotionally intelligent introspection disguised as astrology.
 
-━━━━━━━━━━━━━━━━━━
-OUTPUT RULES
-━━━━━━━━━━━━━━━━━━
+OUTPUT
 
-* Between 150 and 170 words
-* Exactly 6 sentences
-* Unique phrasing every time
-* Emotionally rich
-* Conversational
-* Modern
-* Human sounding
-* Slightly mystical but believable
-* No markdown
-* No explanations
+Return STRICT VALID JSON ONLY.
 
-RULES:
-- Output ONLY JSON
-- Do NOT add explanations
-- Do NOT add markdown
-- Do NOT wrap JSON in triple backticks
-- Generate ALL 15 moods
-- Each mood must appear exactly once
+{
+"date": "YYYY-MM-DD",
+"sign": "Aries",
+"horoscopes": [
+{
+"mood": "Ambitious",
+"content": "..."
+}
+]
+}
 
-CRITICAL:
-- Return STRICT VALID JSON
-- Response will be parsed using Python json.loads()
-- Do not include comments
-- Do not include trailing commas
-- Do not include text before JSON
-- Do not include text after JSON
-- Escape quotation marks inside content properly
+Requirements:
+
+* Generate all 15 moods exactly once.
+* Output JSON only.
+* No markdown.
+* No explanations.
+* No comments.
+* No trailing commas.
+* No text before JSON.
+* No text after JSON.
+* Must be valid json.loads() compatible JSON.
