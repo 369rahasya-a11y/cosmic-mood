@@ -1,4 +1,3 @@
-````python
 import json
 import os
 import time
@@ -259,4 +258,3 @@ if failed_signs:
 else:
 
     print("\nALL SIGNS GENERATED SUCCESSFULLY")
-````
