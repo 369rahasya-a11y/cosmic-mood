@@ -61,6 +61,10 @@ target_date = (
     datetime.utcnow().date() + timedelta(days=1)
 ).isoformat()
 
+yesterday = (
+    datetime.utcnow().date() - timedelta(days=1)
+).isoformat()
+
 failed_signs = []
 successful_signs = []
 total_uploaded = 0
@@ -73,6 +77,27 @@ for sign in SIGNS:
         [f"===MOOD: {m}===\nWrite horoscope here" for m in MOODS]
     )
 
+    previous = (
+        supabase.table("horoscopes")
+        .select("mood,content")
+        .eq("horoscope_date", yesterday)
+        .eq("sign", sign)
+        .execute()
+    )
+
+    previous_text = ""
+
+    if previous.data:
+
+        for row in previous.data:
+
+            previous_text += f"""
+
+===PREVIOUS MOOD: {row['mood']}===
+
+{row['content']}
+"""
+
     prompt = f"""
 {MASTER_PROMPT}
 
@@ -83,6 +108,26 @@ Generate horoscopes ONLY for:
 
 Sign personality:
 {SIGN_TRAITS[sign]}
+
+YESTERDAY'S READINGS
+
+{previous_text}
+
+CRITICAL DAILY VARIATION RULE
+
+Do not rewrite, paraphrase, or slightly modify yesterday's reading.
+
+For each mood:
+
+- use a different emotional situation
+- use a different emotional trigger
+- use a different social interaction
+- use a different internal conflict
+- use a different concrete scene
+
+Keep the emotional identity of the mood the same.
+
+Change the situation.
 
 Generate ALL these moods:
 {", ".join(MOODS)}
@@ -117,7 +162,7 @@ RULES:
                 completion = client.chat.completions.create(
                     model="llama-3.3-70b-versatile",
                     messages=[{"role": "user", "content": prompt}],
-                    temperature=0.8,
+                    temperature=1.0,
                     max_tokens=5000
                 )
 
