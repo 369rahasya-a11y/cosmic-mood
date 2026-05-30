@@ -209,4 +209,4 @@ horoscope content
 
 Generate all 15 moods exactly once.
 Output only the mood sections.
-Do not use JSON. this is the promt i am using 
+Do not use JSON.
