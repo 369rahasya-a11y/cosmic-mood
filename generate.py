@@ -222,8 +222,13 @@ print("========================")
 print(f"TOTAL UPLOADED: {total_uploaded}")
 print(f"SUCCESSFUL SIGNS: {len(successful_signs)}")
 
+if total_uploaded != 180:
+    raise Exception(
+        f"Expected 180 readings, got {total_uploaded}"
+    )
+
 if failed_signs:
-    print("\\nFAILED SIGNS:")
+    print("\nFAILED SIGNS:")
     print(sorted(list(set(failed_signs))))
 else:
-    print("\\nALL SIGNS GENERATED SUCCESSFULLY")
+    print("\nALL SIGNS GENERATED SUCCESSFULLY")
